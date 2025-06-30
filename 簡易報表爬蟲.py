@@ -1,3 +1,4 @@
+#以下有四個版本
 #需事先安裝的套件：
 #!pip install yfinance -q
 #!pip install requests
