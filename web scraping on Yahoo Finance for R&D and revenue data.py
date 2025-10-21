@@ -1,15 +1,15 @@
-#以下有四個版本
-#需事先安裝的套件：
+#There are four versions
+#download in advance：
 #!pip install yfinance -q
 #!pip install requests
 
 import yfinance as yf
 
-#股價
+#Stock price
 df = yf.Ticker("MSFT").history(period="max")
 df
 
-#版本一：計算前一年度的 Research and Development Ratio
+#Version 1：count Research and Development Ratio in previous year
 import yfinance as yf
 
 tickers = ['MSFT']
@@ -29,14 +29,14 @@ for ticker in tickers:
     except KeyError as e:
         print(f"{ticker}: 缺少欄位 {e}")
 
-#版本二：查多個公司且多個年度的R&D Ratio
+#Version 2: Look up R&D Ratios for multiple companies and multiple years.
 import yfinance as yf
 
-tickers = ['MSFT','GOOG'] # 這裡改公司
+tickers = ['MSFT','GOOG'] 
 
 for ticker in tickers:
     stock = yf.Ticker(ticker)
-    financials = stock.financials  # 這是年度財報
+    financials = stock.financials  
 
     print(f"\n{ticker} available financial rows:")
     print(financials.index)
@@ -48,7 +48,7 @@ for ticker in tickers:
         print(f"\n{ticker}: R&D to Revenue Ratio by Year")
         for date in r_and_d_series.index:
             year = date.year
-            if 2023 <= year <= 2024: # 這裡改年度
+            if 2023 <= year <= 2024: 
                 r_and_d = r_and_d_series[date]
                 revenue = revenue_series[date]
                 r_d_ratio = r_and_d / revenue if revenue else 0
@@ -56,12 +56,12 @@ for ticker in tickers:
     except KeyError as e:
         print(f"{ticker}: 缺少欄位 {e}")
 
-#版本三：手動輸入公司
+#Version 3: Manually input company tickers.
 import yfinance as yf
 import pandas as pd
 
-tickers = ['MSFT'] #改公司
-year_range = range(2020,2025) #改年度
+tickers = ['MSFT'] 
+year_range = range(2020,2025) 
 
 result_df = pd.DataFrame(index=year_range)
 
@@ -92,19 +92,18 @@ for ticker in tickers:
 result_df = result_df.transpose()
 result_df.to_excel('r_d_ratios.xlsx')
 
-# 自動下載計算結果的excel檔
+
 from google.colab import files
 files.download('r_d_ratios.xlsx')
 
-#版本四：可以直接讀取有大量Tickers的excel檔，並將計算好的 R&D ratio匯出成excel檔
+#Version 4: Directly read an Excel file containing a large list of tickers and export the calculated R&D ratios to an Excel file.
 import yfinance as yf
 import pandas as pd
 from google.colab import files
 uploaded = files.upload()
 
-# 讀取 Excel 中的 ticker 名單
-ticker_df = pd.read_excel('XBI成分股.xlsx')  # 確保這個檔案已上傳到 Colab
-tickers = ticker_df['Ticker'].dropna().unique().tolist()  # 轉成 list
+ticker_df = pd.read_excel('XBI成分股.xlsx')  
+tickers = ticker_df['Ticker'].dropna().unique().tolist()  
 
 year_range = range(2020, 2025)
 result_df = pd.DataFrame(index=year_range)
@@ -136,6 +135,7 @@ for ticker in tickers:
 result_df = result_df.transpose()
 result_df.to_excel('r_d_ratios.xlsx')
 
-# 自動下載
+
 from google.colab import files
 files.download('r_d_ratios.xlsx')
+
