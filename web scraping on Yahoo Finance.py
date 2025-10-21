@@ -139,3 +139,4 @@ result_df.to_excel('r_d_ratios.xlsx')
 from google.colab import files
 files.download('r_d_ratios.xlsx')
 
+
